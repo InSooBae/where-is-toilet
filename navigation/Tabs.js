@@ -6,10 +6,15 @@ import Favs from "../screens/Favs";
 
 const Tabs = createBottomTabNavigator();
 
+const getHeaderName = (route) =>
+  route?.state?.routeNames[route.state.index] || "Home";
+
 export default ({ navigation, route }) => {
   useLayoutEffect(() => {
+    const name = getHeaderName(route);
     navigation.setOptions({
-      title: route?.state?.routeNames[route.state.index] || "Home",
+      title: name,
+      headerShown: name !== "Home",
     });
   }, [route]);
   return (

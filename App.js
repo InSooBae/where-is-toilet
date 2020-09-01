@@ -6,8 +6,8 @@ import { Asset } from "expo-asset";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
+import { useColorScheme, AppearanceProvider } from "react-native-appearance";
 import Stack from "./navigation/Stack";
-
 const cacheImages = (images) =>
   images.map((image) => {
     if (typeof image == "string") {
@@ -21,6 +21,8 @@ const cacheFonts = (fonts) => fonts.map((font) => Font.loadAsync(font));
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
+  const colorScheme = useColorScheme();
+
   const loadAsset = () => {
     const images = cacheImages([
       "https://images.unsplash.com/photo-1581310152154-c7cc480bca61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60",
@@ -33,12 +35,12 @@ export default function App() {
   };
   const onFinish = () => setIsReady(true);
   return isReady ? (
-    <>
+    <AppearanceProvider>
       <NavigationContainer>
         <Stack />
       </NavigationContainer>
-      <StatusBar style="light" />
-    </>
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+    </AppearanceProvider>
   ) : (
     <AppLoading
       startAsync={loadAsset}
